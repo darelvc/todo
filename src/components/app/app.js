@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import AppHeader from '../app-header/app-header';
 import SearchPanel from '../search-panel/search-panel';
 import TodoList from '../todo-list/todo-list';
+import AddItemButton from '../add-item-button';
 import ItemStatusFilter from '../item-status-filter/item-status-filter';
 
 import './app.css'
@@ -18,6 +19,8 @@ export default class App extends Component {
         ]
     };
 
+    maxId = this.state.todoData.length + 1;
+
     deleteItem = (id) => {
         this.setState(({ todoData }) => {
             const idx = todoData.findIndex(el => el.id === id);
@@ -32,6 +35,34 @@ export default class App extends Component {
         })
     };
 
+    addItem = (text) => {
+        const newItem = {
+            label: text,
+            important: false,
+            id: this.maxId++
+        };
+
+        console.log(newItem);
+
+        this.setState(({ todoData }) => {
+            return {
+                todoData: [
+                    ...todoData,
+                    newItem
+                ]
+            };
+        })
+
+    };
+
+    onToggleImportant = (id) => {
+        console.log('Toggle Important: ', id);
+    };
+
+    onToggleDone = (id) => {
+        console.log('Toggle Done: ', id);
+    };
+
     render() {
         return (
             <div className="todo-app">
@@ -42,7 +73,10 @@ export default class App extends Component {
                 </div>
                 <TodoList
                     todos={ this.state.todoData }
-                    onDeleted={ this.deleteItem }/>
+                    onDeleted={ this.deleteItem }
+                    onToggleImportant={this.onToggleImportant}
+                    onToggleDone={this.onToggleDone}/>
+                <AddItemButton onItemAdded={ this.addItem }/>
             </div>
         );
     }

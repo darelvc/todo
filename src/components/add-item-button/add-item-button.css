@@ -1,3 +1,7 @@
 .add-item-button {
     margin-top: 10px;
 }
+
+.add-item-button input {
+    margin-right: 3px;
+}
